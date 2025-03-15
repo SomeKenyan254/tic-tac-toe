@@ -1,5 +1,5 @@
-const Player = (name,Symbol) => {
-    return {name,Symbol};
+const Player = (name,symbol) => {
+    return {name,symbol};
 }
 const Display = (() => {
     const renderBoard = (game) => {
@@ -10,46 +10,62 @@ const Display = (() => {
             const cellElement = document.createElement('div');
             cellElement.classList.add('cell');
             cellElement.textContent = cell;
+            if(cell === "O"){
+                cellElement.style.backgroundColor = "red"
+            }
+            else if(cell == "X"){
+                cellElement.style.backgroundColor = "blue"
+            }
             cellElement.addEventListener('click', () => {
                 GameFlow.makeMove(index);
-                cellElement.textContent = game[index];
+                
             });
             board.appendChild(cellElement);
         });
     }
 
         return { renderBoard };
-    })();
-    const GameFlow = (() => {
+})();
+const GameFlow = (() => {
         let game = Array(9).fill("");
-        let players = [Player("Player 1", "O"), Player("Player 2", "X")];
-        let currentPlayer = players[0];
-        gameOver = false;
+        let players = [];
+        let currentPlayer;
+        let gameOver = false;
+        resultDiv = document.querySelector(".results")
+        resultDiv.innerHTML=""
+        const resultMsg = document.createElement("div")
     
         const makeMove = (index) => {
-            if (index < 0 || index >= game.length) {
-                console.log("Invalid move.");
+            if (index < 0 || index >= game.length || gameOver) {
+                alert("not valid");
                
                 return;
             }
             if (game[index] !== "") {
-                console.log("Spot taken");
+                alert("Spot taken");
                 return;
             }
     
-            game[index] = currentPlayer.Symbol;
+            game[index] = currentPlayer.symbol;
+            Display.renderBoard(game)
+           
+            
+
     
             if (checkWinner()) {
-                console.log(`${currentPlayer.name} wins!`);
+                resultMsg.textContent = (`${currentPlayer.name} wins!`);
                 gameOver = true;
-                return;
+                resultDiv.appendChild(resultMsg)    
+                return ;
             }
-            if (!game.includes("")) {
-                console.log("It's a draw!");
+            else if (!game.includes("")) {
+                resultMsg.textContent = ("It's a draw!");
                 gameOver = true;
+                resultDiv.appendChild(resultMsg)
                 return;
             }
             currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+            
         };
     
         const checkWinner = () => {
@@ -67,7 +83,16 @@ const Display = (() => {
             return false;
         };
     
-        const startGame = () => {
+        const startGame = (player1Name, player1Symbol, player2Name, player2Symbol) => {
+            if (player1Symbol === player2Symbol) {
+                alert("Players must choose different symbols!");
+                return;
+            }
+    
+            players = [
+                Player(player1Name, player1Symbol),
+                Player(player2Name, player2Symbol)
+            ];
             game = Array(9).fill("");
             currentPlayer = players[0];
             gameOver = false;
@@ -75,6 +100,14 @@ const Display = (() => {
         };
     
         return { makeMove, startGame };
-    })();
-    
-GameFlow.startGame();
+})();
+document.querySelector("#playerForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const player1Name = document.querySelector("#Player1").value;
+    const player1Symbol = document.querySelector("#symbol_1").value;
+    const player2Name = document.querySelector("#Player2").value;
+    const player2Symbol = document.querySelector("#symbol_2").value;
+
+    GameFlow.startGame(player1Name, player1Symbol, player2Name, player2Symbol);
+})

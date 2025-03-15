@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, institial-scale=">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <title>A game of tic tac toe</title>
@@ -13,7 +13,37 @@
           <P>TIC-TAC-TOE</P>
         </div>
         <div class="players">
-            <button  id="players">Enter your names:</button>
+          <form id="playerForm">
+            <fieldset>
+              <div class="player1">
+                   <label for="Player1">Player 1 Name:</label>
+                    <input type="text" id="Player1" name="Player1" required>
+                    <label for="symbol_1">Pick Symbol</label>
+                    <select id="symbol_1" name="symbol_1" required>
+                      <option value="X">X</option>
+                      <option value="O">O</option>
+                  </select>
+                    
+
+          </div>
+          <div class="player2">
+
+            <label for="Player2">Player 2 Name:</label>
+            <input type="text" id="Player2" name="Player2" required>
+            <label for="symbol_2">Pick Symbol</label>
+            <select id="symbol_2" name="symbol_2" required>
+              <option value="X">X</option>
+              <option value="O">O</option>
+          </select>
+          </div>
+
+          <button type="submit">Start Game</button>
+
+          </fieldset>
+
+
+          </form>
+        
 
         </div>
         <div class="display">
@@ -21,7 +51,7 @@
 
         </div>
         <div class="results">
-          <p>Game results</p>
+          
         </div>
       </div>
 </body>
