@@ -31,6 +31,7 @@ const GameFlow = (() => {
         let players = [];
         let currentPlayer;
         let gameOver = false;
+        let score = 0;
         resultDiv = document.querySelector(".results")
         resultDiv.innerHTML=""
         const resultMsg = document.createElement("div")
@@ -53,7 +54,8 @@ const GameFlow = (() => {
 
     
             if (checkWinner()) {
-                resultMsg.textContent = (`${currentPlayer.name} wins!`);
+                score ++
+                resultMsg.textContent = (`${currentPlayer.name} wins! by ${score} `);
                 gameOver = true;
                 resultDiv.appendChild(resultMsg)    
                 return ;
